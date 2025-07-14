@@ -1,5 +1,7 @@
 package gift.member.service;
 
+import static gift.global.util.Assert.check;
+
 import gift.global.exception.InvalidPasswordException;
 import gift.global.exception.MemberEmailAlreadyExistsException;
 import gift.global.exception.MemberEmailNotExistsException;
@@ -43,17 +45,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberLoginResponseDto login(MemberLoginRequestDto requestDto) {
-        Member member = memberRepository.findByEmail(requestDto.email());
+        Member member = validMember(requestDto.email(), requestDto.password());
+        String token = jwtProvider.createToken(member);
 
-        if (member == null) {
-            throw new MemberEmailNotExistsException();
-        }
+        return new MemberLoginResponseDto(token);
+    }
 
-        if (!member.getPassword().matches(requestDto.password())) {
-            throw new InvalidPasswordException();
-        }
+    private Member validMember(String email, String password) {
+        Member member = memberRepository.findByEmail(email);
 
-        return new MemberLoginResponseDto(jwtProvider.createToken(member));
+        check(member != null, new MemberEmailNotExistsException());
+        check(member.getPassword().matches(password), new InvalidPasswordException());
+        return member;
     }
 
     @Override
