@@ -50,16 +50,4 @@ public class Member {
     public Password getPassword() {
         return password;
     }
-
-    public void changeName(Name name) {
-        this.name = name;
-    }
-
-    public void changeEmail(Email email) {
-        this.email = email;
-    }
-
-    public void changePassword(Password password) {
-        this.password = password;
-    }
 }

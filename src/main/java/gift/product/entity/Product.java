@@ -47,16 +47,4 @@ public class Product {
     public String getImageUrl() {
         return imageUrl;
     }
-
-    public void changeName(String name) {
-        this.name = name;
-    }
-
-    public void changePrice(int price) {
-        this.price = price;
-    }
-
-    public void changeImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }
