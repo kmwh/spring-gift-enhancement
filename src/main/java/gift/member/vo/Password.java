@@ -1,11 +1,18 @@
 package gift.member.vo;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class Password {
-    private final String value;
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    public Password() {}
 
     public Password(String value) {
         check(value);
-        this.value = value;
+        this.password = value;
     }
 
     private void check(String password) {
@@ -15,10 +22,10 @@ public class Password {
     }
 
     public String getValue() {
-        return value;
+        return password;
     }
 
     public boolean matches(String inputValue) {
-        return value.equals(inputValue);
+        return password.equals(inputValue);
     }
 }

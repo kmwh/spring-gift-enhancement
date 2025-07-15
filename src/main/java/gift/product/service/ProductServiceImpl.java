@@ -1,10 +1,17 @@
 package gift.product.service;
 
+import gift.global.exception.ProductNotFoundException;
+import gift.global.exception.WishlistNotFoundException;
+import gift.member.entity.Member;
+import gift.member.vo.Email;
+import gift.member.vo.Name;
+import gift.member.vo.Password;
 import gift.product.dto.ProductRequestDto;
 import gift.product.dto.ProductResponseDto;
 import gift.product.entity.Product;
 import gift.product.repository.ProductRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,15 +24,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDto createProduct(ProductRequestDto requestDto) {
-        Product product = new Product(null, requestDto);
-        long id = productRepository.createProduct(product);
-        return ProductResponseDto.from(id, product);
+        Product product = new Product(
+            null,
+            requestDto.name(),
+            requestDto.price(),
+            requestDto.imageUrl());
+        product = productRepository.save(product);
+        return ProductResponseDto.from(product);
     }
 
     @Override
     public List<ProductResponseDto> findAllProducts() {
         return productRepository
-            .findAllProducts()
+            .findAll()
             .stream()
             .map(ProductResponseDto::from)
             .toList();
@@ -33,18 +44,33 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDto findProductById(Long id) {
-        return ProductResponseDto.from(productRepository.findProductById(id));
+        Optional<Product> productOptional = productRepository.findById(id);
+        Product product = productOptional.orElseThrow(ProductNotFoundException::new);
+
+        return ProductResponseDto.from(product);
     }
 
     @Override
-    public ProductResponseDto updateProduct(Long id, ProductRequestDto requestDto) {
-        Product product = new Product(id, requestDto);
-        productRepository.updateProduct(product);
-        return ProductResponseDto.from(id, product);
+    public void updateProduct(Long id, ProductRequestDto requestDto) {
+        if (!productRepository.existsById(id)) {
+            throw new ProductNotFoundException();
+        }
+
+        Product product = new Product(
+            id,
+            requestDto.name(),
+            requestDto.price(),
+            requestDto.imageUrl()
+        );
+        productRepository.save(product);
     }
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteProduct(id);
+        if (!productRepository.existsById(id)) {
+            throw new ProductNotFoundException();
+        }
+
+        productRepository.deleteById(id);
     }
 }

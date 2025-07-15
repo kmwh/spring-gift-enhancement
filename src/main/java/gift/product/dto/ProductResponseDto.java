@@ -16,13 +16,4 @@ public record ProductResponseDto(
             product.getImageUrl()
         );
     }
-
-    public static ProductResponseDto from(Long id, Product product) {
-        return new ProductResponseDto(
-            id,
-            product.getName(),
-            product.getPrice(),
-            product.getImageUrl()
-        );
-    }
 }

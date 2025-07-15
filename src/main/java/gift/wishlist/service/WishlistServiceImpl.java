@@ -1,5 +1,6 @@
 package gift.wishlist.service;
 
+import gift.global.exception.WishlistNotFoundException;
 import gift.wishlist.dto.CreateWishRequestDto;
 import gift.wishlist.dto.UpdateWishRequestDto;
 import gift.wishlist.dto.WishResponseDto;
@@ -33,18 +34,25 @@ public class WishlistServiceImpl implements WishlistService{
             requestDto.productId(),
             new Amount(requestDto.amount())
         );
-        long id = wishlistRepository.save(wish);
+        wish = wishlistRepository.save(wish);
 
-        return WishResponseDto.from(new Wish(id, wish));
+        return WishResponseDto.from(wish);
     }
 
     @Override
     public void update(Long id, UpdateWishRequestDto requestDto) {
-        wishlistRepository.update(id, new Amount(requestDto.amount()));
+        Wish wish = wishlistRepository.findById(id)
+            .orElseThrow(WishlistNotFoundException::new);
+
+        wish.changeAmount(new Amount(requestDto.amount())); // JPA가 dirty checking 으로 변경 감지하여 UPDATE 실행
     }
 
     @Override
-    public void delete(Long memberId, Long productId) {
-        wishlistRepository.delete(memberId, productId);
+    public void delete(Long id) {
+        if (!wishlistRepository.existsById(id)) {
+            throw new WishlistNotFoundException();
+        }
+
+        wishlistRepository.deleteById(id);
     }
 }

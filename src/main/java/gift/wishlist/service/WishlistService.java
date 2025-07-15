@@ -9,5 +9,5 @@ public interface WishlistService {
     List<WishResponseDto> findAllByMemberId(Long memberId);
     WishResponseDto create(Long memberId, CreateWishRequestDto requestDto);
     void update(Long memberId, UpdateWishRequestDto requestDto);
-    void delete(Long memberId, Long productId);
+    void delete(Long id);
 }
