@@ -7,5 +7,5 @@
 
 ## Step 1
 ### 구현 기능 정리
-- [ ] Jdbc -> JPA 리팩토링
-- [ ] Entity 매핑
+- [x] Jdbc -> JPA 리팩토링
+- [x] Entity 매핑

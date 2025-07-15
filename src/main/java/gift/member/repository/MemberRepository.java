@@ -6,11 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findByEmail(Email email);
-
-//    void save(Member member);
-//    Member findByEmail(String email);
-//    List<Member> findAll();
-//    Member findById(Long id);
-//    void update(Member member);
-//    void delete(Long id);
 }
