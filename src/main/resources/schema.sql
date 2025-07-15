@@ -14,7 +14,7 @@ CREATE TABLE members (
 
 CREATE TABLE wishlist (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  member_id BIGINT,
-  product_id BIGINT,
-  amount INT
+  member_id BIGINT NOT NULL,
+  product_id BIGINT NOT NULL,
+  amount INT NOT NULL
 )
