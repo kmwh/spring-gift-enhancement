@@ -1,13 +1,19 @@
 package gift.wishlist.vo;
 
 import gift.global.exception.InValidAmountException;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
+@Embeddable
 public class Amount {
-    private final Integer value;
+    @Column(nullable = false)
+    private Integer amount;
+
+    public Amount() {}
 
     public Amount(int value) {
         check(value);
-        this.value = value;
+        this.amount = value;
     }
 
     private void check(Integer amount) {
@@ -17,6 +23,6 @@ public class Amount {
     }
 
     public Integer getValue() {
-        return value;
+        return amount;
     }
 }

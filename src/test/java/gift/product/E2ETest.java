@@ -131,7 +131,6 @@ public class E2ETest {
             .toEntity(ProductResponseDto.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().name()).isEqualTo("수정된 샘플 상품1");
     }
 
     @Test

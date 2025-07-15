@@ -54,13 +54,9 @@ public class WishlistController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> delete(
-        HttpServletRequest request,
-        @PathVariable Long productId
-    ) {
-        Long memberId = (Long) request.getAttribute("memberId");
-        wishlistService.delete(memberId, productId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        wishlistService.delete(id);
 
         return ResponseEntity.noContent().build();
     }

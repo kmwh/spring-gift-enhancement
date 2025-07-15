@@ -5,6 +5,8 @@ import static gift.global.util.Assert.check;
 import gift.global.exception.InvalidPasswordException;
 import gift.global.exception.MemberEmailAlreadyExistsException;
 import gift.global.exception.MemberEmailNotExistsException;
+import gift.global.exception.MemberNotFoundException;
+import gift.global.exception.WishlistNotFoundException;
 import gift.global.security.JwtProvider;
 import gift.member.dto.MemberLoginRequestDto;
 import gift.member.dto.MemberLoginResponseDto;
@@ -16,6 +18,7 @@ import gift.member.vo.Email;
 import gift.member.vo.Name;
 import gift.member.vo.Password;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void register(MemberRegisterRequestDto requestDto) {
-        if (memberRepository.findByEmail(requestDto.email()) != null) {
+        if (memberRepository.findByEmail(new Email(requestDto.email())) != null) {
             throw new MemberEmailAlreadyExistsException();
         }
 
@@ -52,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private Member validMember(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByEmail(new Email(email));
 
         check(member != null, new MemberEmailNotExistsException());
         check(member.getPassword().matches(password), new InvalidPasswordException());
@@ -70,22 +73,33 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberResponseDto findById(Long id) {
-        return MemberResponseDto.from(memberRepository.findById(id));
+        Optional<Member> memberOptional = memberRepository.findById(id);
+        Member member = memberOptional.orElseThrow(MemberNotFoundException::new);
+
+        return MemberResponseDto.from(member);
     }
 
     @Override
     public void update(Long id, MemberRegisterRequestDto requestDto) {
+        if (!memberRepository.existsById(id)) {
+            throw new MemberNotFoundException();
+        }
+
         Member member = new Member(
             id,
             new Name(requestDto.name()),
             new Email(requestDto.email()),
             new Password(requestDto.password())
         );
-        memberRepository.update(member);
+        memberRepository.save(member);
     }
 
     @Override
     public void delete(Long id) {
-        memberRepository.delete(id);
+        if (!memberRepository.existsById(id)) {
+            throw new MemberNotFoundException();
+        }
+
+        memberRepository.deleteById(id);
     }
 }

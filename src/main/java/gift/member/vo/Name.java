@@ -1,11 +1,18 @@
 package gift.member.vo;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class Name {
-    private final String value;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    public Name() {}
 
     public Name(String value) {
         check(value);
-        this.value = value;
+        this.name = value;
     }
 
     private void check(String name) {
@@ -15,6 +22,6 @@ public class Name {
     }
 
     public String getValue() {
-        return value;
+        return name;
     }
 }

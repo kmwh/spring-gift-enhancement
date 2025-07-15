@@ -1,13 +1,16 @@
 package gift.member.repository;
 
 import gift.member.entity.Member;
-import java.util.List;
+import gift.member.vo.Email;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository {
-    void save(Member member);
-    Member findByEmail(String email);
-    List<Member> findAll();
-    Member findById(Long id);
-    void update(Member member);
-    void delete(Long id);
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    Member findByEmail(Email email);
+
+//    void save(Member member);
+//    Member findByEmail(String email);
+//    List<Member> findAll();
+//    Member findById(Long id);
+//    void update(Member member);
+//    void delete(Long id);
 }
