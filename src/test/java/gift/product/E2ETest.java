@@ -3,9 +3,9 @@ package gift.product;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import gift.global.dto.PageResponseDto;
 import gift.product.dto.ProductRequestDto;
 import gift.product.dto.ProductResponseDto;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,12 +38,12 @@ public class E2ETest {
         var response = restClient.get()
             .uri("?page=0&size=1")
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<ProductResponseDto>>() {
+            .toEntity(new ParameterizedTypeReference<PageResponseDto<ProductResponseDto>>() {
             });
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().getFirst().name()).isEqualTo("샘플 상품1");
-        assertThat(response.getBody().size()).isEqualTo(1);
+        assertThat(response.getBody().content().getFirst().name()).isEqualTo("샘플 상품1");
+        assertThat(response.getBody().content().size()).isEqualTo(1);
     }
 
     @Test

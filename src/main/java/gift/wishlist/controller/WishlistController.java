@@ -1,11 +1,11 @@
 package gift.wishlist.controller;
 
+import gift.global.dto.PageResponseDto;
 import gift.wishlist.dto.CreateWishRequestDto;
 import gift.wishlist.dto.UpdateWishRequestDto;
 import gift.wishlist.dto.WishResponseDto;
 import gift.wishlist.service.WishlistService;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class WishlistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishResponseDto>> findAllByMemberId(
+    public ResponseEntity<PageResponseDto<WishResponseDto>> findAllByMemberId(
         HttpServletRequest request,
         Pageable pageable
     ) {

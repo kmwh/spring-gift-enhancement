@@ -1,5 +1,6 @@
 package gift.wishlist.service;
 
+import gift.global.dto.PageResponseDto;
 import gift.global.exception.WishlistNotFoundException;
 import gift.wishlist.dto.CreateWishRequestDto;
 import gift.wishlist.dto.UpdateWishRequestDto;
@@ -7,7 +8,7 @@ import gift.wishlist.dto.WishResponseDto;
 import gift.wishlist.entity.Wish;
 import gift.wishlist.repository.WishlistRepository;
 import gift.wishlist.vo.Amount;
-import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,11 @@ public class WishlistServiceImpl implements WishlistService{
     }
 
     @Override
-    public List<WishResponseDto> findAllByMemberId(Long memberId, Pageable pageable) {
-        return wishlistRepository.findAllByMemberId(memberId, pageable)
-            .map(WishResponseDto::from)
-            .toList();
+    public PageResponseDto<WishResponseDto> findAllByMemberId(Long memberId, Pageable pageable) {
+        Page<WishResponseDto> wishResponseDtoPage =
+            wishlistRepository.findAllByMemberId(memberId, pageable)
+                .map(WishResponseDto::from);
+        return PageResponseDto.from(wishResponseDtoPage);
     }
 
     @Override

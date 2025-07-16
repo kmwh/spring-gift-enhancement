@@ -1,17 +1,15 @@
 package gift.product.service;
 
+import gift.global.dto.PageResponseDto;
 import gift.global.exception.ProductNotFoundException;
 import gift.product.dto.ProductRequestDto;
 import gift.product.dto.ProductResponseDto;
 import gift.product.entity.Product;
 import gift.product.repository.ProductRepository;
 import gift.product.vo.Name;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDto createProduct(ProductRequestDto requestDto) {
+    public ProductResponseDto create(ProductRequestDto requestDto) {
         Product product = new Product(
             null,
             new Name(requestDto.name()),
@@ -34,14 +32,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponseDto> findAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable)
-            .map(ProductResponseDto::from)
-            .toList();
+    public PageResponseDto<ProductResponseDto> findAll(Pageable pageable) {
+        Page<ProductResponseDto> productResponseDtoPage =
+            productRepository.findAll(pageable)
+                .map(ProductResponseDto::from);
+        return PageResponseDto.from(productResponseDtoPage);
     }
 
     @Override
-    public ProductResponseDto findProductById(Long id) {
+    public ProductResponseDto findById(Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
         Product product = productOptional.orElseThrow(ProductNotFoundException::new);
 
@@ -49,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(Long id, ProductRequestDto requestDto) {
+    public void update(Long id, ProductRequestDto requestDto) {
         if (!productRepository.existsById(id)) {
             throw new ProductNotFoundException();
         }
@@ -64,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public void delete(Long id) {
         if (!productRepository.existsById(id)) {
             throw new ProductNotFoundException();
         }

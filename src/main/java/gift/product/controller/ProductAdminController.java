@@ -30,7 +30,7 @@ public class ProductAdminController {
         Model model,
         @PageableDefault(size = 20) Pageable pageable
     ) {
-        model.addAttribute("products", productService.findAllProducts(pageable));
+        model.addAttribute("products", productService.findAll(pageable));
         return "products/list";
     }
 
@@ -43,7 +43,7 @@ public class ProductAdminController {
 
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
-        ProductResponseDto product = productService.findProductById(id);
+        ProductResponseDto product = productService.findById(id);
         model.addAttribute("productId", id);
         model.addAttribute("product", new ProductRequestDto(
             product.name(), product.price(), product.imageUrl()
@@ -53,7 +53,7 @@ public class ProductAdminController {
 
     @PostMapping
     public String create(@Valid @ModelAttribute ProductRequestDto requestDto) {
-        productService.createProduct(requestDto);
+        productService.create(requestDto);
         return "redirect:/admin/products";
     }
 
@@ -62,13 +62,13 @@ public class ProductAdminController {
         @PathVariable Long id,
         @Valid @ModelAttribute ProductRequestDto requestDto
     ) {
-        productService.updateProduct(id, requestDto);
+        productService.update(id, requestDto);
         return "redirect:/admin/products";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        productService.delete(id);
         return "redirect:/admin/products";
     }
 }
