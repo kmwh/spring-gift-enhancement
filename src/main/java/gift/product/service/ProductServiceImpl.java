@@ -1,10 +1,6 @@
 package gift.product.service;
 
 import gift.global.exception.ProductNotFoundException;
-import gift.global.exception.WishlistNotFoundException;
-import gift.member.entity.Member;
-import gift.member.vo.Email;
-import gift.member.vo.Password;
 import gift.product.dto.ProductRequestDto;
 import gift.product.dto.ProductResponseDto;
 import gift.product.entity.Product;
@@ -12,6 +8,10 @@ import gift.product.repository.ProductRepository;
 import gift.product.vo.Name;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,10 +34,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponseDto> findAllProducts() {
-        return productRepository
-            .findAll()
-            .stream()
+    public List<ProductResponseDto> findAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable)
             .map(ProductResponseDto::from)
             .toList();
     }

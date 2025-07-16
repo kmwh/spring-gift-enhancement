@@ -36,12 +36,14 @@ public class E2ETest {
     @DisplayName("상품 목록 조회 테스트")
     void 상품_목록_조회_테스트() {
         var response = restClient.get()
+            .uri("?page=0&size=1")
             .retrieve()
             .toEntity(new ParameterizedTypeReference<List<ProductResponseDto>>() {
             });
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().getFirst().name()).isEqualTo("샘플 상품1");
+        assertThat(response.getBody().size()).isEqualTo(1);
     }
 
     @Test

@@ -4,6 +4,8 @@ import gift.product.dto.ProductRequestDto;
 import gift.product.dto.ProductResponseDto;
 import gift.product.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,8 +26,11 @@ public class ProductAdminController {
     }
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("products", productService.findAllProducts());
+    public String list(
+        Model model,
+        @PageableDefault(size = 20) Pageable pageable
+    ) {
+        model.addAttribute("products", productService.findAllProducts(pageable));
         return "products/list";
     }
 
@@ -53,7 +58,10 @@ public class ProductAdminController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, @Valid @ModelAttribute ProductRequestDto requestDto) {
+    public String update(
+        @PathVariable Long id,
+        @Valid @ModelAttribute ProductRequestDto requestDto
+    ) {
         productService.updateProduct(id, requestDto);
         return "redirect:/admin/products";
     }
