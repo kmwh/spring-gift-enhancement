@@ -16,7 +16,7 @@ public class Name {
     }
 
     private void check(String name) {
-        if (name == null || name.length() < 3) {
+        if (name.length() < 3) {
             throw new IllegalArgumentException("이름은 3자 이상이어야 합니다.");
         }
     }

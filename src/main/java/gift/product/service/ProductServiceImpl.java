@@ -4,12 +4,12 @@ import gift.global.exception.ProductNotFoundException;
 import gift.global.exception.WishlistNotFoundException;
 import gift.member.entity.Member;
 import gift.member.vo.Email;
-import gift.member.vo.Name;
 import gift.member.vo.Password;
 import gift.product.dto.ProductRequestDto;
 import gift.product.dto.ProductResponseDto;
 import gift.product.entity.Product;
 import gift.product.repository.ProductRepository;
+import gift.product.vo.Name;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDto createProduct(ProductRequestDto requestDto) {
         Product product = new Product(
             null,
-            requestDto.name(),
+            new Name(requestDto.name()),
             requestDto.price(),
             requestDto.imageUrl());
         product = productRepository.save(product);
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = new Product(
             id,
-            requestDto.name(),
+            new Name(requestDto.name()),
             requestDto.price(),
             requestDto.imageUrl()
         );

@@ -16,8 +16,8 @@ public class Email {
     }
 
     private void check(String email) {
-        if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            throw new IllegalArgumentException("유효하지 않은 이메일 형식입니다.");
+        if (email.length() < 10) {
+            throw new IllegalArgumentException("이메일은 10자 이상이어야 합니다.");
         }
     }
 
