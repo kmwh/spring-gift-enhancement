@@ -1,6 +1,5 @@
 package gift.global.dto;
 
-import gift.product.entity.Product;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
