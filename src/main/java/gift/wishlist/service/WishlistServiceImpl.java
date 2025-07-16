@@ -8,6 +8,7 @@ import gift.wishlist.entity.Wish;
 import gift.wishlist.repository.WishlistRepository;
 import gift.wishlist.vo.Amount;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,9 +20,8 @@ public class WishlistServiceImpl implements WishlistService{
     }
 
     @Override
-    public List<WishResponseDto> findAllByMemberId(Long memberId) {
-        return wishlistRepository.findAllByMemberId(memberId)
-            .stream()
+    public List<WishResponseDto> findAllByMemberId(Long memberId, Pageable pageable) {
+        return wishlistRepository.findAllByMemberId(memberId, pageable)
             .map(WishResponseDto::from)
             .toList();
     }

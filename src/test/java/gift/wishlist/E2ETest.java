@@ -101,7 +101,7 @@ public class E2ETest {
 
         // when (위시 리스트)
         ResponseEntity<List<WishResponseDto>> response = restClient.get()
-            .uri("/wishes")
+            .uri("/wishes?page=0&size=1")
             .header("Authorization", "Bearer " + loginToken)
             .retrieve()
             .toEntity(new ParameterizedTypeReference<List<WishResponseDto>>() {
@@ -110,6 +110,7 @@ public class E2ETest {
         // then (위시 리스트)
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().getFirst().memberId()).isEqualTo(1);
+        assertThat(response.getBody().size()).isEqualTo(1);
     }
 
     @Test

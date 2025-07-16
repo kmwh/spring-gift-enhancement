@@ -6,6 +6,7 @@ import gift.wishlist.dto.WishResponseDto;
 import gift.wishlist.service.WishlistService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,10 +28,13 @@ public class WishlistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishResponseDto>> findAllByMemberId(HttpServletRequest request) {
+    public ResponseEntity<List<WishResponseDto>> findAllByMemberId(
+        HttpServletRequest request,
+        Pageable pageable
+    ) {
         Long memberId = (Long) request.getAttribute("memberId");
 
-        return ResponseEntity.ok(wishlistService.findAllByMemberId(memberId));
+        return ResponseEntity.ok(wishlistService.findAllByMemberId(memberId, pageable));
     }
 
     @PostMapping
