@@ -2,6 +2,8 @@ package gift.wishlist.service;
 
 import gift.global.dto.PageResponseDto;
 import gift.global.exception.WishlistNotFoundException;
+import gift.member.entity.Member;
+import gift.product.entity.Product;
 import gift.wishlist.dto.CreateWishRequestDto;
 import gift.wishlist.dto.UpdateWishRequestDto;
 import gift.wishlist.dto.WishResponseDto;
@@ -32,8 +34,8 @@ public class WishlistServiceImpl implements WishlistService{
     public WishResponseDto create(Long memberId, CreateWishRequestDto requestDto) {
         Wish wish = new Wish(
             null,
-            memberId,
-            requestDto.productId(),
+            new Member(memberId),
+            new Product(requestDto.productId()),
             new Amount(requestDto.amount())
         );
         wish = wishlistRepository.save(wish);

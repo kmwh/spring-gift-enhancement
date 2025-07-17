@@ -11,8 +11,8 @@ public record WishResponseDto(
     public static WishResponseDto from(Wish wish) {
         return new WishResponseDto(
             wish.getId(),
-            wish.getMemberId(),
-            wish.getProductId(),
+            wish.getMember().getId(),
+            wish.getProduct().getId(),
             wish.getAmount().getValue()
         );
     }

@@ -44,6 +44,16 @@ public class E2ETest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().content().getFirst().name()).isEqualTo("샘플 상품1");
         assertThat(response.getBody().content().size()).isEqualTo(1);
+
+        response = restClient.get()
+            .uri("?page=1&size=1")
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<PageResponseDto<ProductResponseDto>>() {
+            });
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().content().getFirst().name()).isEqualTo("샘플 상품2");
+        assertThat(response.getBody().content().size()).isEqualTo(1);
     }
 
     @Test

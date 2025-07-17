@@ -111,6 +111,19 @@ public class E2ETest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().content().getFirst().memberId()).isEqualTo(1);
         assertThat(response.getBody().content().size()).isEqualTo(1);
+
+        // when (위시 리스트)
+        response = restClient.get()
+            .uri("/wishes?page=1&size=1")
+            .header("Authorization", "Bearer " + loginToken)
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<PageResponseDto<WishResponseDto>>() {
+            });
+
+        // then (위시 리스트)
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().content().getFirst().productId()).isEqualTo(2);
+        assertThat(response.getBody().content().size()).isEqualTo(1);
     }
 
     @Test

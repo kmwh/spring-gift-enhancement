@@ -1,36 +1,41 @@
 package gift.wishlist.entity;
 
+import gift.member.entity.Member;
+import gift.product.entity.Product;
 import gift.wishlist.vo.Amount;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "wishlist")
+@Table(name = "wish")
 public class Wish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Embedded
     private Amount amount;
 
     public Wish() {}
 
-    public Wish(Long id, Long memberId, Long productId, Amount amount) {
+    public Wish(Long id, Member member, Product product, Amount amount) {
         this.id = id;
-        this.memberId = memberId;
-        this.productId = productId;
+        this.member = member;
+        this.product = product;
         this.amount = amount;
     }
 
@@ -38,12 +43,12 @@ public class Wish {
         return id;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public Member getMember() {
+        return member;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
     public Amount getAmount() {
