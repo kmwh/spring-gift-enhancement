@@ -64,8 +64,14 @@ public class GlobalExceptionHandler {
             .body(ex.getMessage());
     }
 
-    @ExceptionHandler(InValidAmountException.class)
-    public ResponseEntity<String> handleInValidAmountException(InValidAmountException ex) {
+    @ExceptionHandler(InvalidAmountException.class)
+    public ResponseEntity<String> handleInValidAmountException(InvalidAmountException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ProductNameContainsKakaoException.class)
+    public ResponseEntity<String> handleProductNameContainsKakaoException(ProductNameContainsKakaoException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(ex.getMessage());
     }

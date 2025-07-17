@@ -37,7 +37,7 @@
           </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${products}">
+        <tr th:each="product : ${products.content}">
           <td th:text="${product.id}" class="text-center"></td>
           <td class="text-center">
             <img th:src="${product.imageUrl}" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
@@ -72,6 +72,23 @@
       </table>
     </div>
   </div>
+  <nav class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${products.first} ? 'disabled'">
+        <a class="page-link" th:href="@{/admin/products(page=${products.number - 1}, size=${products.size})}">Prev</a>
+      </li>
+      <li class="page-item"
+          th:each="pageNum : ${#numbers.sequence(0, products.totalPages - 1)}"
+          th:classappend="${pageNum == products.number} ? 'active'">
+        <a class="page-link"
+           th:href="@{/admin/products(page=${pageNum}, size=${products.size})}"
+           th:text="${pageNum + 1}"></a>
+      </li>
+      <li class="page-item" th:classappend="${products.last} ? 'disabled'">
+        <a class="page-link" th:href="@{/admin/products(page=${products.number + 1}, size=${products.size})}">Next</a>
+      </li>
+    </ul>
+  </nav>
 </div>
 </body>
 </html>

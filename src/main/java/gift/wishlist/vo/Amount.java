@@ -1,6 +1,6 @@
 package gift.wishlist.vo;
 
-import gift.global.exception.InValidAmountException;
+import gift.global.exception.InvalidAmountException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
@@ -18,7 +18,7 @@ public class Amount {
 
     private void check(Integer amount) {
         if (amount == null || amount > 99) {
-            throw new InValidAmountException();
+            throw new InvalidAmountException();
         }
     }
 

@@ -1,6 +1,8 @@
 package gift.product.entity;
 
+import gift.product.vo.Name;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,14 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Embedded
+    private Name name;
 
     @Column(nullable = false)
     private Integer price;
@@ -25,7 +27,11 @@ public class Product {
 
     public Product() {}
 
-    public Product(Long id, String name, Integer price, String imageUrl) {
+    public Product(Long id) {
+        this.id = id;
+    }
+
+    public Product(Long id, Name name, Integer price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -36,7 +42,7 @@ public class Product {
         return id;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
@@ -46,17 +52,5 @@ public class Product {
 
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    public void changeName(String name) {
-        this.name = name;
-    }
-
-    public void changePrice(int price) {
-        this.price = price;
-    }
-
-    public void changeImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 }

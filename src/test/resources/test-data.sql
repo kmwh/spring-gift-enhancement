@@ -1,22 +1,23 @@
-TRUNCATE TABLE products;
+SET REFERENTIAL_INTEGRITY FALSE;
 
-ALTER TABLE products ALTER COLUMN id RESTART WITH 1;
+TRUNCATE TABLE wish;
+TRUNCATE TABLE product;
+TRUNCATE TABLE member;
 
-TRUNCATE TABLE members;
+ALTER TABLE wish ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE product ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE member ALTER COLUMN id RESTART WITH 1;
 
-ALTER TABLE members ALTER COLUMN id RESTART WITH 1;
+SET REFERENTIAL_INTEGRITY TRUE;
 
-TRUNCATE TABLE wishlist;
+INSERT INTO product (name, price, image_url) VALUES ('샘플 상품1', 10000, 'sample1.jpg');
 
-ALTER TABLE wishlist ALTER COLUMN id RESTART WITH 1;
+INSERT INTO product (name, price, image_url) VALUES ('샘플 상품2', 20000, 'sample2.jpg');
 
+INSERT INTO member (name, email, password) VALUES ('test1', 'test1@email.com', '1q2w3e4r5t');
 
-INSERT INTO products (name, price, image_url) VALUES ('샘플 상품1', 10000, 'sample1.jpg');
+INSERT INTO member (name, email, password) VALUES ('test2', 'test2@email.com', '1q2w3e4r5t6y');
 
-INSERT INTO products (name, price, image_url) VALUES ('샘플 상품2', 20000, 'sample2.jpg');
+INSERT INTO wish (member_id, product_id, amount) VALUES (1, 1, 10);
 
-INSERT INTO members (name, email, password) VALUES ('test1', 'test1@email.com', '1q2w3e4r5t');
-
-INSERT INTO members (name, email, password) VALUES ('test2', 'test2@email.com', '1q2w3e4r5t6y');
-
-INSERT INTO wishlist (member_id, product_id, amount) VALUES (1, 1, 10);
+INSERT INTO wish (member_id, product_id, amount) VALUES (1, 2, 15);

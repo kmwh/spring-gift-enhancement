@@ -3,13 +3,13 @@ package gift.wishlist;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import gift.global.dto.PageResponseDto;
 import gift.global.security.JwtProvider;
 import gift.member.dto.MemberLoginRequestDto;
 import gift.member.dto.MemberLoginResponseDto;
 import gift.wishlist.dto.CreateWishRequestDto;
 import gift.wishlist.dto.UpdateWishRequestDto;
 import gift.wishlist.dto.WishResponseDto;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,16 +100,30 @@ public class E2ETest {
         System.out.println(loginToken);
 
         // when (위시 리스트)
-        ResponseEntity<List<WishResponseDto>> response = restClient.get()
-            .uri("/wishes")
+        ResponseEntity<PageResponseDto<WishResponseDto>> response = restClient.get()
+            .uri("/wishes?page=0&size=1")
             .header("Authorization", "Bearer " + loginToken)
             .retrieve()
-            .toEntity(new ParameterizedTypeReference<List<WishResponseDto>>() {
+            .toEntity(new ParameterizedTypeReference<PageResponseDto<WishResponseDto>>() {
             });
 
         // then (위시 리스트)
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().getFirst().memberId()).isEqualTo(1);
+        assertThat(response.getBody().content().getFirst().memberId()).isEqualTo(1);
+        assertThat(response.getBody().content().size()).isEqualTo(1);
+
+        // when (위시 리스트)
+        response = restClient.get()
+            .uri("/wishes?page=1&size=1")
+            .header("Authorization", "Bearer " + loginToken)
+            .retrieve()
+            .toEntity(new ParameterizedTypeReference<PageResponseDto<WishResponseDto>>() {
+            });
+
+        // then (위시 리스트)
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().content().getFirst().productId()).isEqualTo(2);
+        assertThat(response.getBody().content().size()).isEqualTo(1);
     }
 
     @Test

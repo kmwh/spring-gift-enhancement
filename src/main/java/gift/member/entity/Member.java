@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "members")
+@Table(name = "member")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,10 @@ public class Member {
     private Password password;
 
     protected Member() {}
+
+    public Member(Long id) {
+        this.id = id;
+    }
 
     public Member(Long id, Name name, Email email, Password password) {
         this.id = id;
@@ -49,17 +53,5 @@ public class Member {
 
     public Password getPassword() {
         return password;
-    }
-
-    public void changeName(Name name) {
-        this.name = name;
-    }
-
-    public void changeEmail(Email email) {
-        this.email = email;
-    }
-
-    public void changePassword(Password password) {
-        this.password = password;
     }
 }
