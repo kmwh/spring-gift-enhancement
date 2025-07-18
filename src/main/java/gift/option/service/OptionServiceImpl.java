@@ -1,5 +1,6 @@
 package gift.option.service;
 
+import gift.global.exception.MinimumQuantityViolationException;
 import gift.global.exception.OptionNotFoundException;
 import gift.global.exception.ProductNotFoundException;
 import gift.option.dto.OptionRequestDto;
@@ -11,6 +12,7 @@ import gift.product.repository.ProductRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OptionServiceImpl implements OptionService{
@@ -53,6 +55,7 @@ public class OptionServiceImpl implements OptionService{
         return OptionResponseDto.from(option);
     }
 
+    @Transactional
     @Override
     public OptionResponseDto update(Long productId, Long optionId, OptionRequestDto requestDto) {
         Optional<Option> optionOptional = optionRepository.findByIdAndProductId(productId, optionId);
@@ -70,5 +73,17 @@ public class OptionServiceImpl implements OptionService{
         }
 
         optionRepository.deleteById(optionId);
+    }
+
+    @Transactional
+    @Override
+    public void subtract(Long productId, Long optionId, Integer num) {
+        Optional<Option> optionOptional = optionRepository.findByIdAndProductId(productId, optionId);
+        Option option = optionOptional.orElseThrow(OptionNotFoundException::new);
+
+        if (option.getQuantity() - num < 1) {
+            throw new MinimumQuantityViolationException();
+        }
+        option.changeQuantity(option.getQuantity() - num);
     }
 }

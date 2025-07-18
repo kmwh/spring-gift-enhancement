@@ -89,6 +89,12 @@ public class GlobalExceptionHandler {
             .body("같은 이름의 옵션이 이미 존재합니다.");
     }
 
+    @ExceptionHandler(MinimumQuantityViolationException.class)
+    public ResponseEntity<String> handleMinimumQuantityViolationException(MinimumQuantityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("같은 이름의 옵션이 이미 존재합니다.");
+    }
+
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<String> handleJwtException(JwtException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

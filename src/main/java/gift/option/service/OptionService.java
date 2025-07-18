@@ -10,4 +10,5 @@ public interface OptionService {
     OptionResponseDto findByProductIdAndOptionId(Long productId, Long optionId);
     OptionResponseDto update(Long productId, Long optionId, OptionRequestDto requestDto);
     void delete(Long productId, Long optionId);
+    void subtract(Long productId, Long optionId, Integer num);
 }
