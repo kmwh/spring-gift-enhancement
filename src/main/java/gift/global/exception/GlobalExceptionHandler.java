@@ -29,6 +29,12 @@ public class GlobalExceptionHandler {
             .body(ex.getMessage());
     }
 
+    @ExceptionHandler(OptionNotFoundException.class)
+    public ResponseEntity<String> handleOptionNotFoundException(OptionNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(ex.getMessage());
+    }
+
     @ExceptionHandler(WishlistNotFoundException.class)
     public ResponseEntity<String> handleWishlistNotFoundException(WishlistNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

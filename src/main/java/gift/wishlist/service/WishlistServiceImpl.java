@@ -33,7 +33,6 @@ public class WishlistServiceImpl implements WishlistService{
     @Override
     public WishResponseDto create(Long memberId, CreateWishRequestDto requestDto) {
         Wish wish = new Wish(
-            null,
             new Member(memberId),
             new Product(requestDto.productId()),
             new Amount(requestDto.amount())
@@ -48,7 +47,7 @@ public class WishlistServiceImpl implements WishlistService{
         Wish wish = wishlistRepository.findById(id)
             .orElseThrow(WishlistNotFoundException::new);
 
-        wish.changeAmount(new Amount(requestDto.amount())); // JPA가 dirty checking 으로 변경 감지하여 UPDATE 실행
+        wish.changeAmount(new Amount(requestDto.amount()));
     }
 
     @Override

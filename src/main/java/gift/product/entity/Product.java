@@ -1,13 +1,19 @@
 package gift.product.entity;
 
+import gift.option.entity.Option;
+import gift.product.dto.ProductRequestDto;
 import gift.product.vo.Name;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -25,14 +31,16 @@ public class Product {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
-    public Product() {}
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Option> options = new ArrayList<>();
+
+    protected Product() {}
 
     public Product(Long id) {
         this.id = id;
     }
 
-    public Product(Long id, Name name, Integer price, String imageUrl) {
-        this.id = id;
+    public Product(Name name, Integer price, String imageUrl) {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -52,5 +60,11 @@ public class Product {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public void update(ProductRequestDto requestDto) {
+        this.name = new Name(requestDto.name());
+        this.price = requestDto.price();
+        this.imageUrl = requestDto.imageUrl();
     }
 }

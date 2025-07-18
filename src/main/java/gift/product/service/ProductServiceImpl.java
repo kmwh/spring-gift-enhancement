@@ -23,10 +23,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto create(ProductRequestDto requestDto) {
         Product product = new Product(
-            null,
             new Name(requestDto.name()),
             requestDto.price(),
-            requestDto.imageUrl());
+            requestDto.imageUrl()
+        );
         product = productRepository.save(product);
         return ProductResponseDto.from(product);
     }
@@ -49,17 +49,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void update(Long id, ProductRequestDto requestDto) {
-        if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException();
-        }
+        Optional<Product> productOptional = productRepository.findById(id);
+        Product product = productOptional.orElseThrow(ProductNotFoundException::new);
 
-        Product product = new Product(
-            id,
-            new Name(requestDto.name()),
-            requestDto.price(),
-            requestDto.imageUrl()
-        );
-        productRepository.save(product);
+        product.update(requestDto);
     }
 
     @Override

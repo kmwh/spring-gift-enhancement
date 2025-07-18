@@ -46,7 +46,9 @@ public class ProductAdminController {
         ProductResponseDto product = productService.findById(id);
         model.addAttribute("productId", id);
         model.addAttribute("product", new ProductRequestDto(
-            product.name(), product.price(), product.imageUrl()
+            product.name(),
+            product.price(),
+            product.imageUrl()
         ));
         return "products/form";
     }
