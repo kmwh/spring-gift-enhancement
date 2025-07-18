@@ -3,6 +3,7 @@ package gift.global.exception;
 import io.jsonwebtoken.JwtException;
 import java.util.List;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -80,6 +81,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleProductNameContainsKakaoException(ProductNameContainsKakaoException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("같은 이름의 옵션이 이미 존재합니다.");
     }
 
     @ExceptionHandler(JwtException.class)
