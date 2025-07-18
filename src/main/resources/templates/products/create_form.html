@@ -10,18 +10,13 @@
 <div class="container mt-5">
   <div class="card">
     <div class="card-header">
-      <h4 th:text="${productId} == null ? 'Add Product' : 'Edit Product'"></h4>
+      <h4 th:text="'Add Product'"></h4>
     </div>
     <div class="card-body">
-      <form th:action="@{${productId} == null ? '/admin/products' : '/admin/products/' + ${productId}}"
-            th:object="${product}" method="post">
-
-        <!-- 스프링 폼 제출 시 PUT 방식 처리용 -->
-        <input type="hidden" name="_method" th:value="${productId} != null ? 'put' : 'post'"/>
-
+      <form th:action="@{'/admin/products'}" th:object="${product}" method="post">
         <div class="mb-3">
           <label for="name">Name</label>
-          <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Kim..." required>
+          <input type="text" th:field="*{name}" class="form-control" id="name" required>
         </div>
 
         <div class="mb-3">
@@ -31,14 +26,14 @@
 
         <div class="mb-3">
           <label for="imageUrl">Image URL</label>
-          <input type="text" th:field="*{imageUrl}" class="form-control" id="imageUrl" placeholder="ex)http://..." required>
+          <input type="text" th:field="*{imageUrl}" class="form-control" id="imageUrl" required>
         </div>
 
         <div class="d-flex justify-content-end gap-3">
           <!-- 취소 버튼 -->
           <a href="/admin/products" class="btn btn-secondary">Cancel</a>
           <!-- 확인 버튼 -->
-          <button type="submit" class="btn btn-primary" th:text="${productId} == null ? 'Add' : 'Edit'"></button>
+          <button type="submit" class="btn btn-primary" th:text="'Add'"></button>
         </div>
       </form>
     </div>
