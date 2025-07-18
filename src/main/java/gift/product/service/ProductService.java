@@ -9,6 +9,6 @@ public interface ProductService {
     ProductResponseDto create(ProductRequestDto requestDto);
     PageResponseDto<ProductResponseDto> findAll(Pageable pageable);
     ProductResponseDto findById(Long id);
-    void update(Long id, ProductRequestDto requestDto);
+    ProductResponseDto update(Long id, ProductRequestDto requestDto);
     void delete(Long id);
 }

@@ -29,9 +29,10 @@ public class OptionServiceImpl implements OptionService{
 
         Option option = new Option(
             requestDto.name(),
-            requestDto.quantity(),
-            product
+            requestDto.quantity()
         );
+        option.setProduct(product);
+
         option = optionRepository.save(option);
         return OptionResponseDto.from(option);
     }

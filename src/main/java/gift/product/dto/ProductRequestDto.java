@@ -1,10 +1,15 @@
 package gift.product.dto;
 
+import gift.option.dto.OptionRequestDto;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 public record ProductRequestDto(
     @NotBlank(message = "상품 이름은 필수입니다.")
@@ -16,18 +21,24 @@ public record ProductRequestDto(
     String name,
 
     @NotNull(message = "상품 가격은 필수입니다.")
-    @Min(value = 0, message = "가격은 0 이상이어야 합니다.")
+    @Min(value = 0, message = "가격은 0원 이상이어야 합니다.")
+    @Max(value = 99999999, message = "가격은 1억원 미만이어야 합니다.")
     Integer price,
 
     @NotBlank(message = "이미지 URL은 필수입니다.")
     @Size(max = 500, message = "이미지 URL은 최대 500자까지 입력 가능합니다.")
-    String imageUrl
+    String imageUrl,
+
+    @NotEmpty(message = "상품에는 최소 1개 이상의 옵션이 필요합니다.")
+    @NotNull(message = "상품에는 최소 1개 이상의 옵션이 필요합니다.")
+    List<OptionRequestDto> options
 ) {
     public static ProductRequestDto from() {
         return new ProductRequestDto(
             "",
             0,
-            ""
+            "",
+            new ArrayList<>()
         );
     }
 }

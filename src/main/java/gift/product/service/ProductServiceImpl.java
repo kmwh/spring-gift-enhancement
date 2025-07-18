@@ -2,6 +2,8 @@ package gift.product.service;
 
 import gift.global.dto.PageResponseDto;
 import gift.global.exception.ProductNotFoundException;
+import gift.option.dto.OptionRequestDto;
+import gift.option.entity.Option;
 import gift.product.dto.ProductRequestDto;
 import gift.product.dto.ProductResponseDto;
 import gift.product.entity.Product;
@@ -11,6 +13,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -27,6 +30,12 @@ public class ProductServiceImpl implements ProductService {
             requestDto.price(),
             requestDto.imageUrl()
         );
+
+        for (OptionRequestDto optionResponseDto : requestDto.options()) {
+            Option option = new Option(optionResponseDto.name(), optionResponseDto.quantity());
+            product.addOption(option);
+        }
+
         product = productRepository.save(product);
         return ProductResponseDto.from(product);
     }
@@ -47,12 +56,14 @@ public class ProductServiceImpl implements ProductService {
         return ProductResponseDto.from(product);
     }
 
+    @Transactional
     @Override
-    public void update(Long id, ProductRequestDto requestDto) {
+    public ProductResponseDto update(Long id, ProductRequestDto requestDto) {
         Optional<Product> productOptional = productRepository.findById(id);
         Product product = productOptional.orElseThrow(ProductNotFoundException::new);
 
         product.update(requestDto);
+        return ProductResponseDto.from(product);
     }
 
     @Override

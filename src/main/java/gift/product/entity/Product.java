@@ -62,9 +62,18 @@ public class Product {
         return imageUrl;
     }
 
+    public List<Option> getOptions() {
+        return options;
+    }
+
     public void update(ProductRequestDto requestDto) {
         this.name = new Name(requestDto.name());
         this.price = requestDto.price();
         this.imageUrl = requestDto.imageUrl();
+    }
+
+    public void addOption(Option option) {
+        options.add(option);
+        option.setProduct(this);
     }
 }

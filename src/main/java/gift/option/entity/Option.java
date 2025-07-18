@@ -29,14 +29,9 @@ public class Option {
 
     protected Option() {}
 
-    public Option(
-        String name,
-        Integer quantity,
-        Product product
-    ) {
+    public Option(String name, Integer quantity) {
         this.name = name;
         this.quantity = quantity;
-        this.product = product;
     }
 
     public Long getId() {
@@ -57,5 +52,9 @@ public class Option {
 
     public void changeQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
