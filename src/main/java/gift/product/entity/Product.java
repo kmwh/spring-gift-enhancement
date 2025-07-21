@@ -1,7 +1,7 @@
 package gift.product.entity;
 
 import gift.option.entity.Option;
-import gift.product.dto.ProductRequestDto;
+import gift.product.dto.UpdateProductRequestDto;
 import gift.product.vo.Name;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -66,7 +66,7 @@ public class Product {
         return options;
     }
 
-    public void update(ProductRequestDto requestDto) {
+    public void update(UpdateProductRequestDto requestDto) {
         this.name = new Name(requestDto.name());
         this.price = requestDto.price();
         this.imageUrl = requestDto.imageUrl();

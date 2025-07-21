@@ -4,6 +4,7 @@ import gift.option.entity.Option;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -16,7 +17,7 @@ public record OptionRequestDto(
     )
     String name,
 
-    @NotBlank(message = "옵션 수량은 필수입니다.")
+    @NotNull(message = "옵션의 수량은 필수입니다.")
     @Min(value = 1, message = "옵션 수량은 최소 1개 이상입니다.")
     @Max(value = 99999999, message = "옵션 수량은 1억개 미만입니다.")
     Integer quantity
@@ -25,13 +26,6 @@ public record OptionRequestDto(
         return new OptionRequestDto(
             option.getName(),
             option.getQuantity()
-        );
-    }
-
-    public static OptionRequestDto from(OptionResponseDto optionResponseDto) {
-        return new OptionRequestDto(
-            optionResponseDto.name(),
-            optionResponseDto.quantity()
         );
     }
 }

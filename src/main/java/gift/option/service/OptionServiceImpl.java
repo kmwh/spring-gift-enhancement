@@ -72,6 +72,10 @@ public class OptionServiceImpl implements OptionService{
             throw new OptionNotFoundException();
         }
 
+        if (optionRepository.findAllByProductId(productId).size() <= 1) {
+            throw new MinimumQuantityViolationException();
+        }
+
         optionRepository.deleteById(optionId);
     }
 

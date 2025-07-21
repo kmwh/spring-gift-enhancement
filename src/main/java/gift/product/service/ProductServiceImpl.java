@@ -4,8 +4,9 @@ import gift.global.dto.PageResponseDto;
 import gift.global.exception.ProductNotFoundException;
 import gift.option.dto.OptionRequestDto;
 import gift.option.entity.Option;
-import gift.product.dto.ProductRequestDto;
+import gift.product.dto.CreateProductRequestDto;
 import gift.product.dto.ProductResponseDto;
+import gift.product.dto.UpdateProductRequestDto;
 import gift.product.entity.Product;
 import gift.product.repository.ProductRepository;
 import gift.product.vo.Name;
@@ -24,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDto create(ProductRequestDto requestDto) {
+    public ProductResponseDto create(CreateProductRequestDto requestDto) {
         Product product = new Product(
             new Name(requestDto.name()),
             requestDto.price(),
@@ -58,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductResponseDto update(Long id, ProductRequestDto requestDto) {
+    public ProductResponseDto update(Long id, UpdateProductRequestDto requestDto) {
         Optional<Product> productOptional = productRepository.findById(id);
         Product product = productOptional.orElseThrow(ProductNotFoundException::new);
 

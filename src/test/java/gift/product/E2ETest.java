@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import gift.global.dto.PageResponseDto;
 import gift.option.dto.OptionRequestDto;
-import gift.product.dto.ProductRequestDto;
+import gift.product.dto.CreateProductRequestDto;
 import gift.product.dto.ProductResponseDto;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,7 +85,7 @@ public class E2ETest {
     @Test
     @DisplayName("상품 생성 테스트")
     void 상품_생성_테스트() {
-        ProductRequestDto requestDto = new ProductRequestDto(
+        CreateProductRequestDto requestDto = new CreateProductRequestDto(
             "샘플 상품3",
             30000,
             "sample3.jpg",
@@ -103,7 +103,7 @@ public class E2ETest {
     @Test
     @DisplayName("이름이 15자 초과인 상품 생성 테스트")
     void 이름이_15자_초과인_상품_생성_테스트() {
-        ProductRequestDto requestDto = new ProductRequestDto(
+        CreateProductRequestDto requestDto = new CreateProductRequestDto(
             "이름이 15자를 초과해서 오류가 발생하는 샘플 상품",
             10000,
             "sample.jpg",
@@ -121,7 +121,7 @@ public class E2ETest {
     @Test
     @DisplayName("이름에 사용 불가 특수문자가 포함된 상품 생성 테스트")
     void 이름에_사용_불가_특수문자가_포함된_상품_생성_테스트() {
-        ProductRequestDto requestDto = new ProductRequestDto(
+        CreateProductRequestDto requestDto = new CreateProductRequestDto(
             "상품!",
             10000,
             "sample.jpg",
@@ -139,7 +139,7 @@ public class E2ETest {
     @Test
     @DisplayName("이름에 카카오가 포함된 상품 생성 테스트")
     void 이름에_카카오가_포함된_상품_생성_테스트() {
-        ProductRequestDto requestDto = new ProductRequestDto(
+        CreateProductRequestDto requestDto = new CreateProductRequestDto(
             "카카오 상품",
             10000,
             "sample.jpg",
@@ -157,7 +157,7 @@ public class E2ETest {
     @Test
     @DisplayName("상품 수정 테스트")
     void 상품_수정_테스트() {
-        ProductRequestDto requestDto = new ProductRequestDto(
+        CreateProductRequestDto requestDto = new CreateProductRequestDto(
             "수정된 샘플 상품1",
             100000,
             "updated1.jpg",
@@ -175,7 +175,7 @@ public class E2ETest {
     @Test
     @DisplayName("존재하지 않는 상품 수정 테스트")
     void 존재하지_않는_상품_수정_테스트() {
-        ProductRequestDto requestDto = new ProductRequestDto(
+        CreateProductRequestDto requestDto = new CreateProductRequestDto(
             "수정된 샘플 상품99",
             990000,
             "updated99.jpg",
