@@ -72,7 +72,7 @@ public class E2ETest {
 
     @Test
     @DisplayName("존재하지 않는 상품 조회 테스트")
-    void 존재하지_않는_상품_테스트() {
+    void 존재하지_않는_상품_조회_테스트() {
         var exception = assertThrows(HttpClientErrorException.class, () ->
             restClient.get()
                 .uri("/99")

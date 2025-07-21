@@ -88,7 +88,7 @@ public class ProductAdminController {
         @PathVariable("product_id") Long productId,
         @PathVariable("option_id") Long optionId
     ) {
-        optionService.delete(productId,optionId);
+        optionService.delete(productId, optionId);
         return "redirect:/admin/products/" + productId + "/edit";
     }
 }

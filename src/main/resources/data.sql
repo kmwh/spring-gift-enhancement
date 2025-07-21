@@ -4,6 +4,9 @@ VALUES ('샘플 상품1', 10000, 'sample1.jpg');
 INSERT INTO option (name, quantity, product_id)
 VALUES ('옵션01', 10, 1);
 
+INSERT INTO option (name, quantity, product_id)
+VALUES ('옵션02', 10, 1);
+
 INSERT INTO product (name, price, image_url)
 VALUES ('샘플 상품2', 20000, 'sample2.jpg');
 

@@ -3,6 +3,7 @@ package gift.option.controller;
 import gift.option.dto.OptionRequestDto;
 import gift.option.dto.OptionResponseDto;
 import gift.option.service.OptionService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class OptionController {
     @PostMapping
     public ResponseEntity<OptionResponseDto> create(
         @PathVariable("product_id") Long productId,
-        @RequestBody OptionRequestDto requestDto
+        @Valid @RequestBody OptionRequestDto requestDto
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(optionService.create(productId, requestDto));
@@ -52,7 +53,7 @@ public class OptionController {
     public ResponseEntity<OptionResponseDto> update(
         @PathVariable("product_id") Long productId,
         @PathVariable("option_id") Long optionId,
-        @RequestBody OptionRequestDto requestDto
+        @Valid @RequestBody OptionRequestDto requestDto
     ) {
         return ResponseEntity.ok(optionService.update(productId, optionId, requestDto));
     }

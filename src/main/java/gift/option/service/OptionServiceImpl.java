@@ -49,7 +49,7 @@ public class OptionServiceImpl implements OptionService{
 
     @Override
     public OptionResponseDto findByProductIdAndOptionId(Long productId, Long optionId) {
-        Optional<Option> optionOptional = optionRepository.findByIdAndProductId(productId, optionId);
+        Optional<Option> optionOptional = optionRepository.findByIdAndProductId(optionId, productId);
         Option option = optionOptional.orElseThrow(OptionNotFoundException::new);
 
         return OptionResponseDto.from(option);
@@ -58,7 +58,7 @@ public class OptionServiceImpl implements OptionService{
     @Transactional
     @Override
     public OptionResponseDto update(Long productId, Long optionId, OptionRequestDto requestDto) {
-        Optional<Option> optionOptional = optionRepository.findByIdAndProductId(productId, optionId);
+        Optional<Option> optionOptional = optionRepository.findByIdAndProductId(optionId, productId);
         Option option = optionOptional.orElseThrow(OptionNotFoundException::new);
 
         option.changeName(requestDto.name());
@@ -68,7 +68,7 @@ public class OptionServiceImpl implements OptionService{
 
     @Override
     public void delete(Long productId, Long optionId) {
-        if (!optionRepository.existsByIdAndProductId(productId, optionId)) {
+        if (!optionRepository.existsByIdAndProductId(optionId, productId)) {
             throw new OptionNotFoundException();
         }
 
@@ -82,7 +82,7 @@ public class OptionServiceImpl implements OptionService{
     @Transactional
     @Override
     public void subtract(Long productId, Long optionId, Integer num) {
-        Optional<Option> optionOptional = optionRepository.findByIdAndProductId(productId, optionId);
+        Optional<Option> optionOptional = optionRepository.findByIdAndProductId(optionId, productId);
         Option option = optionOptional.orElseThrow(OptionNotFoundException::new);
 
         if (option.getQuantity() - num < 1) {
