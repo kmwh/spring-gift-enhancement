@@ -41,7 +41,7 @@ public class ProductAdminController {
     public String createForm(Model model) {
         model.addAttribute("productId", null);
         model.addAttribute("product", ProductRequestDto.from());
-        return "products/form";
+        return "products/create_form";
     }
 
     @GetMapping("/{id}/edit")
@@ -57,7 +57,7 @@ public class ProductAdminController {
                 .map(OptionRequestDto::from)
                 .toList()
         ));
-        return "products/form";
+        return "products/update_form";
     }
 
     @PostMapping
