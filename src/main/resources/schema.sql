@@ -9,8 +9,8 @@ CREATE TABLE option (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   quantity INT NOT NULL,
-  product_id BIGINT NOT NULL
-  CONSTRAINT uk_product_option_name UNIQUE (product_id, name),
+  product_id BIGINT NOT NULL,
+  CONSTRAINT uk_product_option_name UNIQUE (product_id, name)
 );
 
 ALTER TABLE option
