@@ -1,5 +1,8 @@
 package gift.product.controller;
 
+import gift.option.dto.OptionRequestDto;
+import gift.option.dto.OptionResponseDto;
+import gift.option.entity.Option;
 import gift.product.dto.ProductRequestDto;
 import gift.product.dto.ProductResponseDto;
 import gift.product.service.ProductService;
@@ -48,7 +51,11 @@ public class ProductAdminController {
         model.addAttribute("product", new ProductRequestDto(
             product.name(),
             product.price(),
-            product.imageUrl()
+            product.imageUrl(),
+            product.options()
+                .stream()
+                .map(OptionRequestDto::from)
+                .toList()
         ));
         return "products/form";
     }
