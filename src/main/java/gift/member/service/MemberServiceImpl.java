@@ -4,9 +4,8 @@ import static gift.global.util.Assert.check;
 
 import gift.global.exception.InvalidPasswordException;
 import gift.global.exception.MemberEmailAlreadyExistsException;
-import gift.global.exception.MemberEmailNotExistsException;
+import gift.global.exception.MemberEmailNotFoundException;
 import gift.global.exception.MemberNotFoundException;
-import gift.global.exception.WishlistNotFoundException;
 import gift.global.security.JwtProvider;
 import gift.member.dto.MemberLoginRequestDto;
 import gift.member.dto.MemberLoginResponseDto;
@@ -20,6 +19,7 @@ import gift.member.vo.Password;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -31,6 +31,7 @@ public class MemberServiceImpl implements MemberService {
         this.jwtProvider = jwtProvider;
     }
 
+    @Transactional
     @Override
     public void register(MemberRegisterRequestDto requestDto) {
         if (memberRepository.findByEmail(new Email(requestDto.email())) != null) {
@@ -57,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
     private Member validMember(String email, String password) {
         Member member = memberRepository.findByEmail(new Email(email));
 
-        check(member != null, new MemberEmailNotExistsException());
+        check(member != null, new MemberEmailNotFoundException());
         check(member.getPassword().matches(password), new InvalidPasswordException());
         return member;
     }
@@ -79,6 +80,7 @@ public class MemberServiceImpl implements MemberService {
         return MemberResponseDto.from(member);
     }
 
+    @Transactional
     @Override
     public void update(Long id, MemberRegisterRequestDto requestDto) {
         if (!memberRepository.existsById(id)) {
@@ -94,6 +96,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         if (!memberRepository.existsById(id)) {

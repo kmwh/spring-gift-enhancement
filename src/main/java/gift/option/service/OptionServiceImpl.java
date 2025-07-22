@@ -35,8 +35,8 @@ public class OptionServiceImpl implements OptionService{
         );
         option.setProduct(product);
 
-        option = optionRepository.save(option);
-        return OptionResponseDto.from(option);
+        Option optionResponse = optionRepository.save(option);
+        return OptionResponseDto.from(optionResponse);
     }
 
     @Override
@@ -61,11 +61,12 @@ public class OptionServiceImpl implements OptionService{
         Optional<Option> optionOptional = optionRepository.findByIdAndProductId(optionId, productId);
         Option option = optionOptional.orElseThrow(OptionNotFoundException::new);
 
-        option.changeName(requestDto.name());
-        option.changeQuantity(requestDto.quantity());
+        option.updateName(requestDto.name());
+        option.updateQuantity(requestDto.quantity());
         return OptionResponseDto.from(option);
     }
 
+    @Transactional
     @Override
     public void delete(Long productId, Long optionId) {
         if (!optionRepository.existsByIdAndProductId(optionId, productId)) {
@@ -85,9 +86,6 @@ public class OptionServiceImpl implements OptionService{
         Optional<Option> optionOptional = optionRepository.findByIdAndProductId(optionId, productId);
         Option option = optionOptional.orElseThrow(OptionNotFoundException::new);
 
-        if (option.getQuantity() - num < 1) {
-            throw new MinimumQuantityViolationException();
-        }
-        option.changeQuantity(option.getQuantity() - num);
+        option.updateQuantity(option.getQuantity() - num);
     }
 }

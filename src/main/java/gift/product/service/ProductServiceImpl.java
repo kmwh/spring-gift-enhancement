@@ -67,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
         return ProductResponseDto.from(product);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         if (!productRepository.existsById(id)) {

@@ -1,5 +1,6 @@
 package gift.option.entity;
 
+import gift.global.exception.MinimumQuantityViolationException;
 import gift.product.entity.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -52,11 +53,14 @@ public class Option {
         return quantity;
     }
 
-    public void changeName(String name) {
+    public void updateName(String name) {
         this.name = name;
     }
 
-    public void changeQuantity(Integer quantity) {
+    public void updateQuantity(Integer quantity) {
+        if (quantity < 1) {
+            throw new MinimumQuantityViolationException();
+        }
         this.quantity = quantity;
     }
 

@@ -31,6 +31,7 @@ public class WishlistServiceImpl implements WishlistService{
         return PageResponseDto.from(wishResponseDtoPage);
     }
 
+    @Transactional
     @Override
     public WishResponseDto create(Long memberId, CreateWishRequestDto requestDto) {
         Wish wish = new Wish(
@@ -52,6 +53,7 @@ public class WishlistServiceImpl implements WishlistService{
         wish.changeAmount(new Amount(requestDto.amount()));
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         if (!wishlistRepository.existsById(id)) {
