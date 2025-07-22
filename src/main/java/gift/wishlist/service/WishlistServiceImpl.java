@@ -39,9 +39,9 @@ public class WishlistServiceImpl implements WishlistService{
             new Product(requestDto.productId()),
             new Amount(requestDto.amount())
         );
-        wish = wishlistRepository.save(wish);
+        Wish wishResponse = wishlistRepository.save(wish);
 
-        return WishResponseDto.from(wish);
+        return WishResponseDto.from(wishResponse);
     }
 
     @Transactional

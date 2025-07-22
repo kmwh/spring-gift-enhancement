@@ -36,9 +36,9 @@ public class ProductServiceImpl implements ProductService {
             Option option = new Option(optionResponseDto.name(), optionResponseDto.quantity());
             product.addOption(option);
         }
+        Product productResponse = productRepository.save(product);
 
-        product = productRepository.save(product);
-        return ProductResponseDto.from(product);
+        return ProductResponseDto.from(productResponse);
     }
 
     @Override
