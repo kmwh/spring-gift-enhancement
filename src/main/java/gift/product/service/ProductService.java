@@ -1,14 +1,15 @@
 package gift.product.service;
 
 import gift.global.dto.PageResponseDto;
-import gift.product.dto.ProductRequestDto;
+import gift.product.dto.CreateProductRequestDto;
 import gift.product.dto.ProductResponseDto;
+import gift.product.dto.UpdateProductRequestDto;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
-    ProductResponseDto create(ProductRequestDto requestDto);
+    ProductResponseDto create(CreateProductRequestDto requestDto);
     PageResponseDto<ProductResponseDto> findAll(Pageable pageable);
     ProductResponseDto findById(Long id);
-    void update(Long id, ProductRequestDto requestDto);
+    ProductResponseDto update(Long id, UpdateProductRequestDto requestDto);
     void delete(Long id);
 }

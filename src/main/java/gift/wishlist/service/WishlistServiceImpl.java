@@ -13,6 +13,7 @@ import gift.wishlist.vo.Amount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class WishlistServiceImpl implements WishlistService{
@@ -30,27 +31,29 @@ public class WishlistServiceImpl implements WishlistService{
         return PageResponseDto.from(wishResponseDtoPage);
     }
 
+    @Transactional
     @Override
     public WishResponseDto create(Long memberId, CreateWishRequestDto requestDto) {
         Wish wish = new Wish(
-            null,
             new Member(memberId),
             new Product(requestDto.productId()),
             new Amount(requestDto.amount())
         );
-        wish = wishlistRepository.save(wish);
+        Wish wishResponse = wishlistRepository.save(wish);
 
-        return WishResponseDto.from(wish);
+        return WishResponseDto.from(wishResponse);
     }
 
+    @Transactional
     @Override
     public void update(Long id, UpdateWishRequestDto requestDto) {
         Wish wish = wishlistRepository.findById(id)
             .orElseThrow(WishlistNotFoundException::new);
 
-        wish.changeAmount(new Amount(requestDto.amount())); // JPA가 dirty checking 으로 변경 감지하여 UPDATE 실행
+        wish.changeAmount(new Amount(requestDto.amount()));
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         if (!wishlistRepository.existsById(id)) {

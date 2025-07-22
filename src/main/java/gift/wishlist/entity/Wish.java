@@ -32,8 +32,7 @@ public class Wish {
 
     public Wish() {}
 
-    public Wish(Long id, Member member, Product product, Amount amount) {
-        this.id = id;
+    public Wish(Member member, Product product, Amount amount) {
         this.member = member;
         this.product = product;
         this.amount = amount;

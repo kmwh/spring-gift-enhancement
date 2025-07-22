@@ -9,7 +9,7 @@ public class Amount {
     @Column(nullable = false)
     private Integer amount;
 
-    public Amount() {}
+    protected Amount() {}
 
     public Amount(int value) {
         check(value);
@@ -17,7 +17,7 @@ public class Amount {
     }
 
     private void check(Integer amount) {
-        if (amount == null || amount > 99) {
+        if (amount > 99) {
             throw new InvalidAmountException();
         }
     }

@@ -3,6 +3,7 @@ package gift.global.exception;
 import io.jsonwebtoken.JwtException;
 import java.util.List;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,26 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<String> handleProductNotFound(ProductNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(ex.getMessage());
-    }
-
-    @ExceptionHandler(MemberEmailNotExistsException.class)
-    public ResponseEntity<String> handleMemberEmailNotExistsException(MemberEmailNotExistsException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(ex.getMessage());
-    }
-
-    @ExceptionHandler(MemberNotFoundException.class)
-    public ResponseEntity<String> handleMemberNotFoundException(MemberNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(ex.getMessage());
-    }
-
-    @ExceptionHandler(WishlistNotFoundException.class)
-    public ResponseEntity<String> handleWishlistNotFoundException(WishlistNotFoundException ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(ex.getMessage());
     }
@@ -74,6 +57,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleProductNameContainsKakaoException(ProductNameContainsKakaoException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(MinimumQuantityViolationException.class)
+    public ResponseEntity<String> handleMinimumQuantityViolationException(MinimumQuantityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body("같은 이름의 옵션이 이미 존재합니다.");
     }
 
     @ExceptionHandler(JwtException.class)

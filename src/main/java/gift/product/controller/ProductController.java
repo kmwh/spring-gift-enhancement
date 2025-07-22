@@ -1,8 +1,9 @@
 package gift.product.controller;
 
 import gift.global.dto.PageResponseDto;
-import gift.product.dto.ProductRequestDto;
+import gift.product.dto.CreateProductRequestDto;
 import gift.product.dto.ProductResponseDto;
+import gift.product.dto.UpdateProductRequestDto;
 import gift.product.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -29,9 +30,10 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponseDto> create(
-        @Valid  @RequestBody ProductRequestDto requestDto
+        @Valid  @RequestBody CreateProductRequestDto requestDto
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(requestDto));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(productService.create(requestDto));
     }
 
     @GetMapping
@@ -47,19 +49,17 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(
+    public ResponseEntity<ProductResponseDto> update(
         @PathVariable Long id,
-        @Valid @RequestBody ProductRequestDto requestDto
+        @Valid @RequestBody UpdateProductRequestDto requestDto
     ) {
-        productService.update(id, requestDto);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(productService.update(id, requestDto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         productService.delete(id);
-
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent()
+            .build();
     }
 }
